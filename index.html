@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAI API 密钥生成器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 使用 Inter 字体 */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* 添加一些额外的样式 */
+        .key-display {
+            word-break: break-all; /* 防止长字符串溢出 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">OpenAI API 密钥生成器</h1>
+
+        <div id="apiKeyDisplay" class="key-display bg-gray-200 p-4 rounded-md mb-6 text-gray-700 h-20 flex items-center justify-center font-mono text-sm">
+            点击按钮生成密钥
+        </div>
+
+        <button id="generateButton" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 ease-in-out shadow">
+            生成 API 密钥
+        </button>
+    </div>
+
+    <script>
+        // 获取 DOM 元素
+        const apiKeyDisplay = document.getElementById('apiKeyDisplay');
+        const generateButton = document.getElementById('generateButton');
+
+        // 定义生成随机 API 密钥的函数
+        function generateApiKey() {
+            // 定义密钥中允许的字符集（字母和数字）
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const keyLength = 51; // sk- 后面的字符长度
+            let randomKey = '';
+
+            // 生成指定长度的随机字符串
+            for (let i = 0; i < keyLength; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                randomKey += characters[randomIndex];
+            }
+
+            // 格式化为 sk- 开头的密钥格式
+            const formattedKey = `sk-${randomKey}`;
+
+            // 将生成的密钥显示在页面上
+            apiKeyDisplay.textContent = formattedKey;
+            apiKeyDisplay.classList.remove('text-gray-500'); // 移除占位符颜色
+            apiKeyDisplay.classList.add('text-gray-900');    // 添加实际密钥颜色
+        }
+
+        // 为按钮添加点击事件监听器
+        generateButton.addEventListener('click', generateApiKey);
+    </script>
+</body>
+</html>
